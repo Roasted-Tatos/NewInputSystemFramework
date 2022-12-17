@@ -19,9 +19,14 @@ namespace Game.Scripts.LiveObjects
         private bool _inDriveMode = false;
         [SerializeField]
         private InteractableZone _interactableZone;
+        [SerializeField]
+        private GameObject ControlsUi;
 
         public static event Action onDriveModeEntered;
         public static event Action onDriveModeExited;
+        public bool isDriving = false;
+
+        private float directionX, directionZ;
 
         private void OnEnable()
         {
@@ -40,9 +45,11 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void ExitDriveMode()
+        public void ExitDriveMode()
         {
             _inDriveMode = false;
+            isDriving = false;
+            ControlsUi.SetActive(false);
             _forkliftCam.Priority = 9;            
             _driverModel.SetActive(false);
             onDriveModeExited?.Invoke();
@@ -53,18 +60,26 @@ namespace Game.Scripts.LiveObjects
         {
             if (_inDriveMode == true)
             {
-                LiftControls();
+                isDriving = true;
+                ControlsUi.SetActive(true);
+                //LiftControls();
                 CalcutateMovement();
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    ExitDriveMode();
+                //if (Input.GetKeyDown(KeyCode.Escape))
+                //    ExitDriveMode();
             }
 
         }
 
+        public void MovementControl(Vector3 direction)
+        {
+            directionX = direction.x;
+            directionZ = direction.z;
+        }
+
         private void CalcutateMovement()
         {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            float h = directionX;
+            float v = directionZ;
             var direction = new Vector3(0, 0, v);
             var velocity = direction * _speed;
 
@@ -78,15 +93,15 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void LiftControls()
-        {
-            if (Input.GetKey(KeyCode.R))
-                LiftUpRoutine();
-            else if (Input.GetKey(KeyCode.T))
-                LiftDownRoutine();
-        }
+        //private void LiftControls()
+        //{
+        //    if (Input.GetKey(KeyCode.R))
+        //        LiftUpRoutine();
+        //    else if (Input.GetKey(KeyCode.T))
+        //        LiftDownRoutine();
+        //}
 
-        private void LiftUpRoutine()
+        public void LiftUpRoutine()
         {
             if (_lift.transform.localPosition.y < _liftUpperLimit.y)
             {
@@ -98,7 +113,7 @@ namespace Game.Scripts.LiveObjects
                 _lift.transform.localPosition = _liftUpperLimit;
         }
 
-        private void LiftDownRoutine()
+        public void LiftDownRoutine()
         {
             if (_lift.transform.localPosition.y > _liftLowerLimit.y)
             {

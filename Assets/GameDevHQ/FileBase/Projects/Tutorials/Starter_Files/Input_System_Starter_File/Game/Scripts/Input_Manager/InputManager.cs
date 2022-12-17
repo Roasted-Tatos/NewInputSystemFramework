@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private Laptop _laptop;
     [SerializeField] private Drone _drone;
+    [SerializeField] private Forklift _forkLift;
 
     public bool isFlying;
 
@@ -43,6 +44,11 @@ public class InputManager : MonoBehaviour
             Flying();
             Debug.Log("turnning on flight controls");
         }
+        else if(_forkLift.isDriving == true)
+        {
+            Driving();
+            Debug.Log("turning on driving controls");
+        }
         else
         {
             Movement();
@@ -52,6 +58,7 @@ public class InputManager : MonoBehaviour
     void Movement()
     {
         inputActions.Drone.Disable();
+        inputActions.ForkLift.Disable();
         inputActions.Player.Enable();
         var inputDirections = inputActions.Player.Movement.ReadValue<Vector3>();
         _player.InputMovement(inputDirections);
@@ -77,6 +84,33 @@ public class InputManager : MonoBehaviour
     private void Escape_performed1(InputAction.CallbackContext obj)
     {
         _drone.CancelFlightMode();
+    }
+
+    private void Driving()
+    {
+        inputActions.Player.Disable();
+        inputActions.ForkLift.Enable();
+
+        var MovementDirections = inputActions.ForkLift.Movement.ReadValue<Vector3>();
+        _forkLift.MovementControl(MovementDirections);
+        inputActions.ForkLift.LiftArm.performed += LiftArm_performed;
+        inputActions.ForkLift.LowerArm.performed += LowerArm_performed;
+        inputActions.ForkLift.Escape.performed += Escape_performed2;
+    }
+
+    private void Escape_performed2(InputAction.CallbackContext obj)
+    {
+        _forkLift.ExitDriveMode();
+    }
+
+    private void LowerArm_performed(InputAction.CallbackContext obj)
+    {
+        _forkLift.LiftDownRoutine();
+    }
+
+    private void LiftArm_performed(InputAction.CallbackContext obj)
+    {
+        _forkLift.LiftUpRoutine();
     }
 
     void LaptopControls()

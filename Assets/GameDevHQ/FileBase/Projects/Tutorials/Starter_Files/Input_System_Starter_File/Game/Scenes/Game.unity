@@ -705,7 +705,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 237, y: -141}
+  m_AnchoredPosition: {x: 256, y: -134}
   m_SizeDelta: {x: 1028, y: 611}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &60846177
@@ -6289,10 +6289,12 @@ MonoBehaviour:
   _liftLowerLimit: {x: 0, y: 0.6, z: 1.47}
   _liftUpperLimit: {x: 0, y: 2.25, z: 1.47}
   _speed: 2
-  _liftSpeed: 1
+  _liftSpeed: 50
   _forkliftCam: {fileID: 972744896}
   _driverModel: {fileID: 1509951838}
   _interactableZone: {fileID: 1277958656}
+  ControlsUi: {fileID: 60846175}
+  isDriving: 0
 --- !u!65 &402105200
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9947,6 +9949,7 @@ MonoBehaviour:
   _player: {fileID: 359860633}
   _laptop: {fileID: 816558616}
   _drone: {fileID: 1073608670}
+  _forkLift: {fileID: 402105197}
   isFlying: 0
 --- !u!4 &592078272
 Transform:

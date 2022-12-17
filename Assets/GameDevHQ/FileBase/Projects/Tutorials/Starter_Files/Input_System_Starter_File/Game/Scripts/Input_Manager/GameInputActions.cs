@@ -591,9 +591,36 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
             ""id"": ""30c2f6ac-e565-4fe7-b712-68569405283c"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
                     ""id"": ""a41d1dfc-1b72-42b8-85e4-8c60d6c77fac"",
+                    ""expectedControlType"": ""Vector3"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LiftArm"",
+                    ""type"": ""Button"",
+                    ""id"": ""6b80443b-12df-4efb-8787-1d65c91cc063"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LowerArm"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd9e9674-5315-4bcc-a75b-133f10852df1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""519e4d52-3a79-4550-805a-5930035dc82d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -602,13 +629,200 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""20d7bfff-b355-4aca-8b8c-8814e4a8c9de"",
-                    ""path"": """",
+                    ""name"": ""Keyboard"",
+                    ""id"": ""1d20d03d-7423-416b-9eae-65b4d4ea0ffb"",
+                    ""path"": ""3DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""78578887-c7a1-47ef-8ab9-c9dc0f7ccda0"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""f16199d7-3557-4315-8ced-aa7a8fb1e84d"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""forward"",
+                    ""id"": ""3f78b3f4-1b89-4691-b07a-52f785d576a1"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""backward"",
+                    ""id"": ""45ecc61f-4768-4333-9ece-b24f0cfd63da"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""eaccd58f-40f8-4e81-9271-130ec683c07f"",
+                    ""path"": ""3DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""628fef44-7d84-49bc-8875-d5d3564ae325"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""2a6a161b-0c0b-40ee-a210-47927db083d9"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""forward"",
+                    ""id"": ""06855da5-754a-4389-afb6-d5cd84fe0660"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""backward"",
+                    ""id"": ""63e71acd-131f-4eb3-972f-92d5f1e15a56"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Controller"",
+                    ""id"": ""965c2953-0d43-4d39-b4e9-bb6b6399baee"",
+                    ""path"": ""3DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""2648dcea-613a-4642-ad46-fe5d2e28e8aa"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9bf5c222-32e3-46eb-9619-07bb10735fe1"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""forward"",
+                    ""id"": ""e48138fe-909f-4643-b594-f3041e851f4f"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""backward"",
+                    ""id"": ""164552a2-adac-4c71-9d0a-4cf4ef76ef56"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cff167a2-76eb-4a9b-90c9-fd4d948dd219"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LiftArm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7467f1a6-2795-4435-a091-2810bd825165"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LowerArm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0e88308-3e41-46b5-a9b8-2dbfa58d2b8d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -664,7 +878,10 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         m_Drone_Escape = m_Drone.FindAction("Escape", throwIfNotFound: true);
         // ForkLift
         m_ForkLift = asset.FindActionMap("ForkLift", throwIfNotFound: true);
-        m_ForkLift_Newaction = m_ForkLift.FindAction("New action", throwIfNotFound: true);
+        m_ForkLift_Movement = m_ForkLift.FindAction("Movement", throwIfNotFound: true);
+        m_ForkLift_LiftArm = m_ForkLift.FindAction("LiftArm", throwIfNotFound: true);
+        m_ForkLift_LowerArm = m_ForkLift.FindAction("LowerArm", throwIfNotFound: true);
+        m_ForkLift_Escape = m_ForkLift.FindAction("Escape", throwIfNotFound: true);
         // Punching
         m_Punching = asset.FindActionMap("Punching", throwIfNotFound: true);
         m_Punching_Newaction = m_Punching.FindAction("New action", throwIfNotFound: true);
@@ -890,12 +1107,18 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
     // ForkLift
     private readonly InputActionMap m_ForkLift;
     private IForkLiftActions m_ForkLiftActionsCallbackInterface;
-    private readonly InputAction m_ForkLift_Newaction;
+    private readonly InputAction m_ForkLift_Movement;
+    private readonly InputAction m_ForkLift_LiftArm;
+    private readonly InputAction m_ForkLift_LowerArm;
+    private readonly InputAction m_ForkLift_Escape;
     public struct ForkLiftActions
     {
         private @GameInputActions m_Wrapper;
         public ForkLiftActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_ForkLift_Newaction;
+        public InputAction @Movement => m_Wrapper.m_ForkLift_Movement;
+        public InputAction @LiftArm => m_Wrapper.m_ForkLift_LiftArm;
+        public InputAction @LowerArm => m_Wrapper.m_ForkLift_LowerArm;
+        public InputAction @Escape => m_Wrapper.m_ForkLift_Escape;
         public InputActionMap Get() { return m_Wrapper.m_ForkLift; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -905,16 +1128,34 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_ForkLiftActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnNewaction;
+                @Movement.started -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnMovement;
+                @LiftArm.started -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnLiftArm;
+                @LiftArm.performed -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnLiftArm;
+                @LiftArm.canceled -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnLiftArm;
+                @LowerArm.started -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnLowerArm;
+                @LowerArm.performed -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnLowerArm;
+                @LowerArm.canceled -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnLowerArm;
+                @Escape.started -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_ForkLiftActionsCallbackInterface.OnEscape;
             }
             m_Wrapper.m_ForkLiftActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @LiftArm.started += instance.OnLiftArm;
+                @LiftArm.performed += instance.OnLiftArm;
+                @LiftArm.canceled += instance.OnLiftArm;
+                @LowerArm.started += instance.OnLowerArm;
+                @LowerArm.performed += instance.OnLowerArm;
+                @LowerArm.canceled += instance.OnLowerArm;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
         }
     }
@@ -974,7 +1215,10 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
     }
     public interface IForkLiftActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
+        void OnLiftArm(InputAction.CallbackContext context);
+        void OnLowerArm(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
     public interface IPunchingActions
     {
