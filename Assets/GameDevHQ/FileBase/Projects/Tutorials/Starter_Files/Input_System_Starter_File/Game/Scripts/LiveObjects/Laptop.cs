@@ -20,6 +20,8 @@ namespace Game.Scripts.LiveObjects
         private int _activeCamera = 0;
         [SerializeField]
         private InteractableZone _interactableZone;
+        [SerializeField]
+        private GameObject _Uicontrols;
 
         public static event Action onHackComplete;
         public static event Action onHackEnded;
@@ -57,6 +59,10 @@ namespace Game.Scripts.LiveObjects
             //    }
             //}
             #endregion
+            if(_hacked == true)
+            {
+                _Uicontrols.SetActive(true);
+            }
         }
 
         public void SwappingCameras()
@@ -79,6 +85,7 @@ namespace Game.Scripts.LiveObjects
         public void ReturnCamera()
         {
             _hacked = false;
+            _Uicontrols.SetActive(false);
             onHackEnded?.Invoke();
             ResetCameras();
         }

@@ -374,6 +374,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "4ab4db7b-44ee-4962-9e44-6d88c18c4101",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -541,6 +550,17 @@
                     "action": "Flight",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "e60d36e5-6272-4b26-b216-96e41c4aff7b",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

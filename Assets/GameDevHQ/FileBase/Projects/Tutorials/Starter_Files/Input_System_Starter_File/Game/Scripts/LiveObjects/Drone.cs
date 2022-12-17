@@ -25,6 +25,10 @@ namespace Game.Scripts.LiveObjects
         private CinemachineVirtualCamera _droneCam;
         [SerializeField]
         private InteractableZone _interactableZone;
+        [SerializeField]
+        private GameObject UiControls;
+
+        public bool isFlying = false;
         
 
         public static event Action OnEnterFlightMode;
@@ -42,6 +46,8 @@ namespace Game.Scripts.LiveObjects
                 _propAnim.SetTrigger("StartProps");
                 _droneCam.Priority = 11;
                 _inFlightMode = true;
+                isFlying = true;
+                UiControls.SetActive(true);
                 OnEnterFlightMode?.Invoke();
                 UIManager.Instance.DroneView(true);
                 _interactableZone.CompleteTask(4);
@@ -52,41 +58,68 @@ namespace Game.Scripts.LiveObjects
         {            
             _droneCam.Priority = 9;
             _inFlightMode = false;
+            isFlying = false;
             UIManager.Instance.DroneView(false);            
         }
 
         private void Update()
         {
-            if (_inFlightMode)
-            {
-                CalculateTilt();
-                CalculateMovementUpdate();
+            //if (_inFlightMode)
+            //{
+            //    CalculateTilt();
+            //    CalculateMovementUpdate();
 
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    _inFlightMode = false;
-                    onExitFlightmode?.Invoke();
-                    ExitFlightMode();
-                }
-            }
+            //    if (Input.GetKeyDown(KeyCode.Escape))
+            //    {
+            //        _inFlightMode = false;
+            //        isFlying = false;
+            //        onExitFlightmode?.Invoke();
+            //        ExitFlightMode();
+            //    }
+            //}
+        }
+
+        public void CancelFlightMode()
+        {
+            _inFlightMode = false;
+            isFlying = false;
+            UiControls.SetActive(false);
+            onExitFlightmode?.Invoke();
+            ExitFlightMode();
         }
 
         private void FixedUpdate()
         {
             _rigidbody.AddForce(transform.up * (9.81f), ForceMode.Acceleration);
-            if (_inFlightMode)
-                CalculateMovementFixedUpdate();
+            //if (_inFlightMode)
+            //    CalculateMovementFixedUpdate();
         }
 
-        private void CalculateMovementUpdate()
+        public void MovementInputs(Vector3 directions)
         {
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if(directions.z > 0)
+            {
+                transform.rotation = Quaternion.Euler(30, transform.localRotation.eulerAngles.y, 0);
+            }
+            else if (directions.z < 0)
+            {
+                transform.rotation = Quaternion.Euler(-30, transform.localRotation.eulerAngles.y, 0);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 0);
+            }
+        }
+
+        public void RotateInput(float direction)
+        {
+            if(direction < 0)
             {
                 var tempRot = transform.localRotation.eulerAngles;
                 tempRot.y -= _speed / 3;
                 transform.localRotation = Quaternion.Euler(tempRot);
             }
-            if (Input.GetKey(KeyCode.RightArrow))
+            else if(direction > 0)
             {
                 var tempRot = transform.localRotation.eulerAngles;
                 tempRot.y += _speed / 3;
@@ -94,32 +127,60 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void CalculateMovementFixedUpdate()
+        public void HeightInput(Vector3 direction)
         {
-            
-            if (Input.GetKey(KeyCode.Space))
+            if(direction.y > 0)
             {
                 _rigidbody.AddForce(transform.up * _speed, ForceMode.Acceleration);
             }
-            if (Input.GetKey(KeyCode.V))
+            else if(direction.y < 0)
             {
                 _rigidbody.AddForce(-transform.up * _speed, ForceMode.Acceleration);
             }
         }
 
-        private void CalculateTilt()
-        {
-            if (Input.GetKey(KeyCode.A)) 
-                transform.rotation = Quaternion.Euler(00, transform.localRotation.eulerAngles.y, 30);
-            else if (Input.GetKey(KeyCode.D))
-                transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, -30);
-            else if (Input.GetKey(KeyCode.W))
-                transform.rotation = Quaternion.Euler(30, transform.localRotation.eulerAngles.y, 0);
-            else if (Input.GetKey(KeyCode.S))
-                transform.rotation = Quaternion.Euler(-30, transform.localRotation.eulerAngles.y, 0);
-            else 
-                transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 0);
-        }
+        //private void CalculateMovementUpdate()
+        //{
+        //    if (Input.GetKey(KeyCode.LeftArrow))
+        //    {
+        //        var tempRot = transform.localRotation.eulerAngles;
+        //        tempRot.y -= _speed / 3;
+        //        transform.localRotation = Quaternion.Euler(tempRot);
+        //    }
+        //    if (Input.GetKey(KeyCode.RightArrow))
+        //    {
+        //        var tempRot = transform.localRotation.eulerAngles;
+        //        tempRot.y += _speed / 3;
+        //        transform.localRotation = Quaternion.Euler(tempRot);
+        //    }
+        //}
+
+        //private void CalculateMovementFixedUpdate()
+        //{
+            
+        //    if (Input.GetKey(KeyCode.Space))
+        //    {
+        //        _rigidbody.AddForce(transform.up * _speed, ForceMode.Acceleration);
+        //    }
+        //    if (Input.GetKey(KeyCode.V))
+        //    {
+        //        _rigidbody.AddForce(-transform.up * _speed, ForceMode.Acceleration);
+        //    }
+        //}
+
+        //private void CalculateTilt()
+        //{
+        //    if (Input.GetKey(KeyCode.A)) 
+        //        transform.rotation = Quaternion.Euler(00, transform.localRotation.eulerAngles.y, 30);
+        //    else if (Input.GetKey(KeyCode.D))
+        //        transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, -30);
+        //    else if (Input.GetKey(KeyCode.W))
+        //        transform.rotation = Quaternion.Euler(30, transform.localRotation.eulerAngles.y, 0);
+        //    else if (Input.GetKey(KeyCode.S))
+        //        transform.rotation = Quaternion.Euler(-30, transform.localRotation.eulerAngles.y, 0);
+        //    else 
+        //        transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 0);
+        //}
 
         private void OnDisable()
         {
