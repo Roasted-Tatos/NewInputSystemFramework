@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 namespace Game.Scripts.LiveObjects
 {
@@ -31,29 +32,55 @@ namespace Game.Scripts.LiveObjects
 
         private void Update()
         {
-            if (_hacked == true)
+            #region old hacking script
+            //if (_hacked == true)
+            //{
+            //    if (Input.GetKeyDown(KeyCode.E))
+            //    {
+            //        var previous = _activeCamera;
+            //        _activeCamera++;
+
+
+            //        if (_activeCamera >= _cameras.Length)
+            //            _activeCamera = 0;
+
+
+            //        _cameras[_activeCamera].Priority = 11;
+            //        _cameras[previous].Priority = 9;
+            //    }
+
+            //    if (Input.GetKeyDown(KeyCode.Escape))
+            //    {
+            //        _hacked = false;
+            //        onHackEnded?.Invoke();
+            //        ResetCameras();
+            //    }
+            //}
+            #endregion
+        }
+
+        public void SwappingCameras()
+        {
+            if(_hacked == true)
             {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    var previous = _activeCamera;
-                    _activeCamera++;
+                var previous = _activeCamera;
+                _activeCamera++;
 
 
-                    if (_activeCamera >= _cameras.Length)
-                        _activeCamera = 0;
+                if (_activeCamera >= _cameras.Length)
+                    _activeCamera = 0;
 
 
-                    _cameras[_activeCamera].Priority = 11;
-                    _cameras[previous].Priority = 9;
-                }
-
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    _hacked = false;
-                    onHackEnded?.Invoke();
-                    ResetCameras();
-                }
+                _cameras[_activeCamera].Priority = 11;
+                _cameras[previous].Priority = 9;
             }
+        }
+
+        public void ReturnCamera()
+        {
+            _hacked = false;
+            onHackEnded?.Invoke();
+            ResetCameras();
         }
 
         void ResetCameras()

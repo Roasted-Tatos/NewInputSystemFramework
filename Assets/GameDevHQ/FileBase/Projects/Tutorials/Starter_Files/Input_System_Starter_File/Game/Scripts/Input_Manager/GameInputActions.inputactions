@@ -297,6 +297,54 @@
             ]
         },
         {
+            "name": "Laptop",
+            "id": "88e917ae-69b2-4859-8356-09547682eaab",
+            "actions": [
+                {
+                    "name": "Swapping_Cameras",
+                    "type": "Button",
+                    "id": "26cea1cd-b17b-4664-b266-fdda6a6d5e93",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "514efb63-e562-4d93-931f-ab969184d765",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bfea9f63-f1a3-4d63-839a-95e714b73873",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swapping_Cameras",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "465a2deb-d672-4281-8e70-9089e9d1df1e",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "Drone",
             "id": "8afaff03-34a8-4233-a067-04594ad5cd59",
             "actions": [
@@ -542,34 +590,6 @@
                 {
                     "name": "",
                     "id": "2a36a5b8-3bd8-4099-aedb-04d82c559609",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Laptop",
-            "id": "88e917ae-69b2-4859-8356-09547682eaab",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "26cea1cd-b17b-4664-b266-fdda6a6d5e93",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "bfea9f63-f1a3-4d63-839a-95e714b73873",
                     "path": "",
                     "interactions": "",
                     "processors": "",

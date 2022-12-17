@@ -319,6 +319,54 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Laptop"",
+            ""id"": ""88e917ae-69b2-4859-8356-09547682eaab"",
+            ""actions"": [
+                {
+                    ""name"": ""Swapping_Cameras"",
+                    ""type"": ""Button"",
+                    ""id"": ""26cea1cd-b17b-4664-b266-fdda6a6d5e93"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""514efb63-e562-4d93-931f-ab969184d765"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""bfea9f63-f1a3-4d63-839a-95e714b73873"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swapping_Cameras"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""465a2deb-d672-4281-8e70-9089e9d1df1e"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""Drone"",
             ""id"": ""8afaff03-34a8-4233-a067-04594ad5cd59"",
             ""actions"": [
@@ -573,34 +621,6 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""Laptop"",
-            ""id"": ""88e917ae-69b2-4859-8356-09547682eaab"",
-            ""actions"": [
-                {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
-                    ""id"": ""26cea1cd-b17b-4664-b266-fdda6a6d5e93"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""bfea9f63-f1a3-4d63-839a-95e714b73873"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": []
@@ -612,6 +632,10 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         m_Player_Collect = m_Player.FindAction("Collect", throwIfNotFound: true);
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
         m_Player_Hold = m_Player.FindAction("Hold", throwIfNotFound: true);
+        // Laptop
+        m_Laptop = asset.FindActionMap("Laptop", throwIfNotFound: true);
+        m_Laptop_Swapping_Cameras = m_Laptop.FindAction("Swapping_Cameras", throwIfNotFound: true);
+        m_Laptop_Escape = m_Laptop.FindAction("Escape", throwIfNotFound: true);
         // Drone
         m_Drone = asset.FindActionMap("Drone", throwIfNotFound: true);
         m_Drone_Movement = m_Drone.FindAction("Movement", throwIfNotFound: true);
@@ -623,9 +647,6 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         // Punching
         m_Punching = asset.FindActionMap("Punching", throwIfNotFound: true);
         m_Punching_Newaction = m_Punching.FindAction("New action", throwIfNotFound: true);
-        // Laptop
-        m_Laptop = asset.FindActionMap("Laptop", throwIfNotFound: true);
-        m_Laptop_Newaction = m_Laptop.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -747,6 +768,47 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
+    // Laptop
+    private readonly InputActionMap m_Laptop;
+    private ILaptopActions m_LaptopActionsCallbackInterface;
+    private readonly InputAction m_Laptop_Swapping_Cameras;
+    private readonly InputAction m_Laptop_Escape;
+    public struct LaptopActions
+    {
+        private @GameInputActions m_Wrapper;
+        public LaptopActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Swapping_Cameras => m_Wrapper.m_Laptop_Swapping_Cameras;
+        public InputAction @Escape => m_Wrapper.m_Laptop_Escape;
+        public InputActionMap Get() { return m_Wrapper.m_Laptop; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(LaptopActions set) { return set.Get(); }
+        public void SetCallbacks(ILaptopActions instance)
+        {
+            if (m_Wrapper.m_LaptopActionsCallbackInterface != null)
+            {
+                @Swapping_Cameras.started -= m_Wrapper.m_LaptopActionsCallbackInterface.OnSwapping_Cameras;
+                @Swapping_Cameras.performed -= m_Wrapper.m_LaptopActionsCallbackInterface.OnSwapping_Cameras;
+                @Swapping_Cameras.canceled -= m_Wrapper.m_LaptopActionsCallbackInterface.OnSwapping_Cameras;
+                @Escape.started -= m_Wrapper.m_LaptopActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_LaptopActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_LaptopActionsCallbackInterface.OnEscape;
+            }
+            m_Wrapper.m_LaptopActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Swapping_Cameras.started += instance.OnSwapping_Cameras;
+                @Swapping_Cameras.performed += instance.OnSwapping_Cameras;
+                @Swapping_Cameras.canceled += instance.OnSwapping_Cameras;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
+            }
+        }
+    }
+    public LaptopActions @Laptop => new LaptopActions(this);
+
     // Drone
     private readonly InputActionMap m_Drone;
     private IDroneActions m_DroneActionsCallbackInterface;
@@ -861,39 +923,6 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         }
     }
     public PunchingActions @Punching => new PunchingActions(this);
-
-    // Laptop
-    private readonly InputActionMap m_Laptop;
-    private ILaptopActions m_LaptopActionsCallbackInterface;
-    private readonly InputAction m_Laptop_Newaction;
-    public struct LaptopActions
-    {
-        private @GameInputActions m_Wrapper;
-        public LaptopActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Laptop_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_Laptop; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(LaptopActions set) { return set.Get(); }
-        public void SetCallbacks(ILaptopActions instance)
-        {
-            if (m_Wrapper.m_LaptopActionsCallbackInterface != null)
-            {
-                @Newaction.started -= m_Wrapper.m_LaptopActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_LaptopActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_LaptopActionsCallbackInterface.OnNewaction;
-            }
-            m_Wrapper.m_LaptopActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
-            }
-        }
-    }
-    public LaptopActions @Laptop => new LaptopActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -901,6 +930,11 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         void OnCollect(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnHold(InputAction.CallbackContext context);
+    }
+    public interface ILaptopActions
+    {
+        void OnSwapping_Cameras(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
     public interface IDroneActions
     {
@@ -913,10 +947,6 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         void OnNewaction(InputAction.CallbackContext context);
     }
     public interface IPunchingActions
-    {
-        void OnNewaction(InputAction.CallbackContext context);
-    }
-    public interface ILaptopActions
     {
         void OnNewaction(InputAction.CallbackContext context);
     }
