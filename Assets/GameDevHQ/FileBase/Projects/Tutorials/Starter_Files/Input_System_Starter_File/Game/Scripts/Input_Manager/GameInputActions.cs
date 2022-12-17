@@ -833,12 +833,12 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
             ""id"": ""ba071bda-0ab1-4ed2-ad06-1242ceb70a72"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Punch"",
                     ""type"": ""Button"",
                     ""id"": ""4ca7b364-3d1b-4a0d-a64a-5b4a6b792c7a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(duration=0.8)"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -846,11 +846,11 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2a36a5b8-3bd8-4099-aedb-04d82c559609"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Punch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -884,7 +884,7 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         m_ForkLift_Escape = m_ForkLift.FindAction("Escape", throwIfNotFound: true);
         // Punching
         m_Punching = asset.FindActionMap("Punching", throwIfNotFound: true);
-        m_Punching_Newaction = m_Punching.FindAction("New action", throwIfNotFound: true);
+        m_Punching_Punch = m_Punching.FindAction("Punch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1164,12 +1164,12 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
     // Punching
     private readonly InputActionMap m_Punching;
     private IPunchingActions m_PunchingActionsCallbackInterface;
-    private readonly InputAction m_Punching_Newaction;
+    private readonly InputAction m_Punching_Punch;
     public struct PunchingActions
     {
         private @GameInputActions m_Wrapper;
         public PunchingActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Punching_Newaction;
+        public InputAction @Punch => m_Wrapper.m_Punching_Punch;
         public InputActionMap Get() { return m_Wrapper.m_Punching; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1179,16 +1179,16 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_PunchingActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_PunchingActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_PunchingActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_PunchingActionsCallbackInterface.OnNewaction;
+                @Punch.started -= m_Wrapper.m_PunchingActionsCallbackInterface.OnPunch;
+                @Punch.performed -= m_Wrapper.m_PunchingActionsCallbackInterface.OnPunch;
+                @Punch.canceled -= m_Wrapper.m_PunchingActionsCallbackInterface.OnPunch;
             }
             m_Wrapper.m_PunchingActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Punch.started += instance.OnPunch;
+                @Punch.performed += instance.OnPunch;
+                @Punch.canceled += instance.OnPunch;
             }
         }
     }
@@ -1222,6 +1222,6 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
     }
     public interface IPunchingActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnPunch(InputAction.CallbackContext context);
     }
 }

@@ -10,7 +10,7 @@ namespace Game.Scripts.Player
     public class Player : MonoBehaviour
     {
         private CharacterController _controller;
-        private Animator _anim;
+        public Animator anim;
         [SerializeField]
         private float _speed = 5.0f;
         private bool _playerGrounded;
@@ -44,9 +44,9 @@ namespace Game.Scripts.Player
             if (_controller == null)
                 Debug.LogError("No Character Controller Present");
 
-            _anim = GetComponentInChildren<Animator>();
+            anim = GetComponentInChildren<Animator>();
 
-            if (_anim == null)
+            if (anim == null)
                 Debug.Log("Failed to connect the Animator");
         }
 
@@ -76,7 +76,7 @@ namespace Game.Scripts.Player
             var velocity = direction * _speed;
 
 
-            _anim.SetFloat("Speed", Mathf.Abs(velocity.magnitude));
+            anim.SetFloat("Speed", Mathf.Abs(velocity.magnitude));
 
 
             if (_playerGrounded)

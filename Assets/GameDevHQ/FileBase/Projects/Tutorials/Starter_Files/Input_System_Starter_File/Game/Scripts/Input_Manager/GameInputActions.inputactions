@@ -811,12 +811,12 @@
             "id": "ba071bda-0ab1-4ed2-ad06-1242ceb70a72",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Punch",
                     "type": "Button",
                     "id": "4ca7b364-3d1b-4a0d-a64a-5b4a6b792c7a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.8)",
                     "initialStateCheck": false
                 }
             ],
@@ -824,11 +824,11 @@
                 {
                     "name": "",
                     "id": "2a36a5b8-3bd8-4099-aedb-04d82c559609",
-                    "path": "",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Punch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

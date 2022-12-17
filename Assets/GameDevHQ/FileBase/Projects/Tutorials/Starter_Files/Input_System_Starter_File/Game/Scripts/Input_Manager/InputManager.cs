@@ -12,15 +12,17 @@ public class InputManager : MonoBehaviour
     [SerializeField] private Laptop _laptop;
     [SerializeField] private Drone _drone;
     [SerializeField] private Forklift _forkLift;
+    [SerializeField] private Crate _crate;
 
     public bool isFlying;
+    public bool isDriving;
+    public bool canPunch = false;
+    private bool chargingPunch = false;
 
     // Start is called before the first frame update
     void Start()
     {
         Initialized();
-
-        isFlying = _drone.isFlying;
     }
 
     void Initialized()
@@ -28,6 +30,7 @@ public class InputManager : MonoBehaviour
         inputActions = new GameInputActions();
         inputActions.Player.Enable();
         inputActions.Laptop.Enable();
+        inputActions.Punching.Enable();
     }
 
     // Update is called once per frame
@@ -35,19 +38,27 @@ public class InputManager : MonoBehaviour
     {
         SwappingControls();
         LaptopControls();
+
+        isFlying = _drone.isFlying;
+        isDriving = _forkLift.isDriving;
+        chargingPunch = _crate.canPunchBox;
     }
 
     private void SwappingControls()
     {
-        if(_drone.isFlying == true)
+        if(isFlying == true)
         {
             Flying();
             Debug.Log("turnning on flight controls");
         }
-        else if(_forkLift.isDriving == true)
+        else if(isDriving == true)
         {
             Driving();
             Debug.Log("turning on driving controls");
+        }
+        else if(chargingPunch == true)
+        {
+            Punching();
         }
         else
         {
@@ -111,6 +122,35 @@ public class InputManager : MonoBehaviour
     private void LiftArm_performed(InputAction.CallbackContext obj)
     {
         _forkLift.LiftUpRoutine();
+    }
+
+    void Punching()
+    {
+        inputActions.Punching.Punch.started += Punch_started;
+        inputActions.Punching.Punch.performed += Punch_performed;
+        inputActions.Punching.Punch.canceled += Punch_canceled;
+    }
+
+    private void Punch_canceled(InputAction.CallbackContext obj)
+    {
+        if(canPunch == true)
+        {
+            _crate.ChargingPunch(false);
+            _player.anim.SetTrigger("Punching");
+            canPunch = false;
+        }
+    }
+
+    private void Punch_performed(InputAction.CallbackContext obj)
+    {
+        _crate.ChargingPunch(true);
+        _player.anim.SetTrigger("StrongPunch");
+        canPunch=false;
+    }
+
+    private void Punch_started(InputAction.CallbackContext obj)
+    {
+        canPunch = true;
     }
 
     void LaptopControls()

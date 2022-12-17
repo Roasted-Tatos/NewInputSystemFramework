@@ -11,7 +11,11 @@ namespace Game.Scripts.LiveObjects
         [SerializeField] private Rigidbody[] _pieces;
         [SerializeField] private BoxCollider _crateCollider;
         [SerializeField] private InteractableZone _interactableZone;
+        [SerializeField] private GameObject PunchingControlsUi;
+
         private bool _isReadyToBreak = false;
+        public bool isChargingPunch = false;
+        public bool canPunchBox = false;
 
         private List<Rigidbody> _brakeOff = new List<Rigidbody>();
 
@@ -32,14 +36,18 @@ namespace Game.Scripts.LiveObjects
 
             if (_isReadyToBreak && zone.GetZoneID() == 6) //Crate zone            
             {
+                canPunchBox = true;
+                PunchingControlsUi.SetActive(true);
                 if (_brakeOff.Count > 0)
                 {
-                    BreakPart();
+                    //BreakPart();
                     StartCoroutine(PunchDelay());
                 }
                 else if(_brakeOff.Count == 0)
                 {
                     _isReadyToBreak = false;
+                    canPunchBox = false;
+                    PunchingControlsUi.SetActive(false);
                     _crateCollider.enabled = false;
                     _interactableZone.CompleteTask(6);
                     Debug.Log("Completely Busted");
@@ -52,8 +60,29 @@ namespace Game.Scripts.LiveObjects
             _brakeOff.AddRange(_pieces);
             
         }
-
-
+        
+        //getting ready for Strong Punch
+        public void ChargingPunch(bool chargeState)
+        {
+            if(chargeState == false)
+            {
+                BreakPart();
+            }
+            else if (chargeState == true)
+            {
+                if (_brakeOff.Count == 1)
+                {
+                    BreakPart();
+                }
+                else
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        BreakPart();
+                    }
+                }
+            }
+        }
 
         public void BreakPart()
         {

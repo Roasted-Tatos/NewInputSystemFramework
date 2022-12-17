@@ -2081,6 +2081,9 @@ MonoBehaviour:
   - {fileID: 547960046}
   _crateCollider: {fileID: 147778362}
   _interactableZone: {fileID: 197238855}
+  PunchingControlsUi: {fileID: 1027153779}
+  isChargingPunch: 0
+  canPunchBox: 0
 --- !u!65 &147778362
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5412,6 +5415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d278a65e6d151a44b8e0fd78d0b8f85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   _speed: 5
   _detonator: {fileID: 2496590969500232579}
   _followCam: {fileID: 1266060213}
@@ -9950,7 +9954,10 @@ MonoBehaviour:
   _laptop: {fileID: 816558616}
   _drone: {fileID: 1073608670}
   _forkLift: {fileID: 402105197}
+  _crate: {fileID: 147778361}
   isFlying: 0
+  isDriving: 0
+  canPunch: 0
 --- !u!4 &592078272
 Transform:
   m_ObjectHideFlags: 0
