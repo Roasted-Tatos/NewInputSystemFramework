@@ -855,6 +855,54 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MainMenu"",
+            ""id"": ""fa72113b-ec11-4079-a583-3f694072a9a7"",
+            ""actions"": [
+                {
+                    ""name"": ""Start"",
+                    ""type"": ""Button"",
+                    ""id"": ""2046f762-4380-4485-a59d-d35f9ef0cbf8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Explosion"",
+                    ""type"": ""Button"",
+                    ""id"": ""c4c40770-fcde-474d-ae44-f68ad63b06c9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ff3f27e8-25f3-4bc1-93ec-81ea72d55e90"",
+                    ""path"": ""<Touchscreen>/touch0/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Explosion"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c6c0da9a-afba-4342-9218-29b8938b6cf4"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -885,6 +933,10 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         // Punching
         m_Punching = asset.FindActionMap("Punching", throwIfNotFound: true);
         m_Punching_Punch = m_Punching.FindAction("Punch", throwIfNotFound: true);
+        // MainMenu
+        m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
+        m_MainMenu_Start = m_MainMenu.FindAction("Start", throwIfNotFound: true);
+        m_MainMenu_Explosion = m_MainMenu.FindAction("Explosion", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1193,6 +1245,47 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         }
     }
     public PunchingActions @Punching => new PunchingActions(this);
+
+    // MainMenu
+    private readonly InputActionMap m_MainMenu;
+    private IMainMenuActions m_MainMenuActionsCallbackInterface;
+    private readonly InputAction m_MainMenu_Start;
+    private readonly InputAction m_MainMenu_Explosion;
+    public struct MainMenuActions
+    {
+        private @GameInputActions m_Wrapper;
+        public MainMenuActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Start => m_Wrapper.m_MainMenu_Start;
+        public InputAction @Explosion => m_Wrapper.m_MainMenu_Explosion;
+        public InputActionMap Get() { return m_Wrapper.m_MainMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MainMenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMainMenuActions instance)
+        {
+            if (m_Wrapper.m_MainMenuActionsCallbackInterface != null)
+            {
+                @Start.started -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnStart;
+                @Start.performed -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnStart;
+                @Start.canceled -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnStart;
+                @Explosion.started -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnExplosion;
+                @Explosion.performed -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnExplosion;
+                @Explosion.canceled -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnExplosion;
+            }
+            m_Wrapper.m_MainMenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Start.started += instance.OnStart;
+                @Start.performed += instance.OnStart;
+                @Start.canceled += instance.OnStart;
+                @Explosion.started += instance.OnExplosion;
+                @Explosion.performed += instance.OnExplosion;
+                @Explosion.canceled += instance.OnExplosion;
+            }
+        }
+    }
+    public MainMenuActions @MainMenu => new MainMenuActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -1223,5 +1316,10 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
     public interface IPunchingActions
     {
         void OnPunch(InputAction.CallbackContext context);
+    }
+    public interface IMainMenuActions
+    {
+        void OnStart(InputAction.CallbackContext context);
+        void OnExplosion(InputAction.CallbackContext context);
     }
 }
