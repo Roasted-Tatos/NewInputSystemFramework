@@ -12,10 +12,11 @@ namespace Game.Scripts.LiveObjects
         [SerializeField] private BoxCollider _crateCollider;
         [SerializeField] private InteractableZone _interactableZone;
         [SerializeField] private GameObject PunchingControlsUi;
+        [SerializeField] private InputManager _inputManager;
 
         private bool _isReadyToBreak = false;
         public bool isChargingPunch = false;
-        public bool canPunchBox = false;
+        
 
         private List<Rigidbody> _brakeOff = new List<Rigidbody>();
 
@@ -36,7 +37,7 @@ namespace Game.Scripts.LiveObjects
 
             if (_isReadyToBreak && zone.GetZoneID() == 6) //Crate zone            
             {
-                canPunchBox = true;
+                _inputManager.PunchingControls();
                 PunchingControlsUi.SetActive(true);
                 if (_brakeOff.Count > 0)
                 {
@@ -46,7 +47,7 @@ namespace Game.Scripts.LiveObjects
                 else if(_brakeOff.Count == 0)
                 {
                     _isReadyToBreak = false;
-                    canPunchBox = false;
+                    _inputManager.PunchingControls();
                     PunchingControlsUi.SetActive(false);
                     _crateCollider.enabled = false;
                     _interactableZone.CompleteTask(6);

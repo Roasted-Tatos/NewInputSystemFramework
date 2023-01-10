@@ -21,12 +21,14 @@ namespace Game.Scripts.LiveObjects
         private InteractableZone _interactableZone;
         [SerializeField]
         private GameObject ControlsUi;
+        [SerializeField]
+        private InputManager _inputManager;
 
         public static event Action onDriveModeEntered;
         public static event Action onDriveModeExited;
         public bool isDriving = false;
 
-        private float directionX, directionZ;
+        private Vector3 _move;
 
         private void OnEnable()
         {
@@ -48,7 +50,7 @@ namespace Game.Scripts.LiveObjects
         public void ExitDriveMode()
         {
             _inDriveMode = false;
-            isDriving = false;
+            _inputManager.ReturnToPlayer();
             ControlsUi.SetActive(false);
             _forkliftCam.Priority = 9;            
             _driverModel.SetActive(false);
@@ -60,7 +62,7 @@ namespace Game.Scripts.LiveObjects
         {
             if (_inDriveMode == true)
             {
-                isDriving = true;
+                _inputManager.ForkLiftControls();
                 ControlsUi.SetActive(true);
                 //LiftControls();
                 CalcutateMovement();
@@ -72,14 +74,13 @@ namespace Game.Scripts.LiveObjects
 
         public void MovementControl(Vector3 direction)
         {
-            directionX = direction.x;
-            directionZ = direction.z;
+            _move = direction;
         }
 
         private void CalcutateMovement()
         {
-            float h = directionX;
-            float v = directionZ;
+            float h = _move.x;
+            float v = _move.z;
             var direction = new Vector3(0, 0, v);
             var velocity = direction * _speed;
 

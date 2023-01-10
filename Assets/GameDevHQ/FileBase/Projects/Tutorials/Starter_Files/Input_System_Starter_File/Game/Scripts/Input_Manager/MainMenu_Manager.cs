@@ -18,10 +18,10 @@ public class MainMenu_Manager : MonoBehaviour
         inputActions = new GameInputActions();
         inputActions.MainMenu.Enable();
         inputActions.MainMenu.Explosion.performed += Explosion_performed;
-        inputActions.MainMenu.Start.performed += Start_performed;
+        //inputActions.MainMenu.Start.performed += Start_performed;
     }
 
-    private void Start_performed(InputAction.CallbackContext obj)
+    public void Start_performed()
     {
         Debug.Log("start game");
         StartCoroutine(StartGameDelay());

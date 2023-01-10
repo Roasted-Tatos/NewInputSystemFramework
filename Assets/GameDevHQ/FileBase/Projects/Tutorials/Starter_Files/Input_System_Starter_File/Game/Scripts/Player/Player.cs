@@ -22,7 +22,8 @@ namespace Game.Scripts.Player
         [SerializeField]
         private GameObject _model;
 
-        private float directionX, directionY, directionZ;
+        private Vector3 _move;
+
 
 
         private void OnEnable()
@@ -59,16 +60,14 @@ namespace Game.Scripts.Player
 
         public void InputMovement(Vector3 direction)
         {
-            directionX = direction.x;
-            directionY = direction.y;
-            directionZ = direction.z;
+            _move = direction;
         }
 
         private void CalcutateMovement()
         {
             _playerGrounded = _controller.isGrounded;
-            float h = directionX;
-            float v = directionZ;
+            float h = _move.x;
+            float v = _move.z;
 
             transform.Rotate(transform.up, h);
 

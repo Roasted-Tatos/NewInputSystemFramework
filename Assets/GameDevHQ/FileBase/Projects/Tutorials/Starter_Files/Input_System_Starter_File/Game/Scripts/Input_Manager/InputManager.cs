@@ -31,65 +31,128 @@ public class InputManager : MonoBehaviour
         inputActions.Player.Enable();
         inputActions.Laptop.Enable();
         inputActions.Punching.Enable();
+        inputActions.Player.Movement.performed += Movement_performed;
+        inputActions.Player.Movement.canceled += Movement_canceled;
+        inputActions.Laptop.Swapping_Cameras.performed += Swapping_Cameras_performed;
+        inputActions.Laptop.Escape.performed += Escape_performed;
+    }
+
+    private void Movement_canceled(InputAction.CallbackContext obj)
+    {
+        _player.InputMovement(Vector3.zero);
+    }
+
+    private void Movement_performed(InputAction.CallbackContext obj)
+    {
+        _player.InputMovement(inputActions.Player.Movement.ReadValue<Vector3>());
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        SwappingControls();
-        LaptopControls();
+    //void Update()
+    //{
+    //    SwappingControls();
+    //    LaptopControls();
 
-        isFlying = _drone.isFlying;
-        isDriving = _forkLift.isDriving;
-        chargingPunch = _crate.canPunchBox;
-    }
+    //    isFlying = _drone.isFlying;
+    //    isDriving = _forkLift.isDriving;
+    //    chargingPunch = _crate.canPunchBox;
+    //}
 
-    private void SwappingControls()
-    {
-        if(isFlying == true)
-        {
-            Flying();
-            Debug.Log("turnning on flight controls");
-        }
-        else if(isDriving == true)
-        {
-            Driving();
-            Debug.Log("turning on driving controls");
-        }
-        else if(chargingPunch == true)
-        {
-            Punching();
-        }
-        else
-        {
-            Movement();
-        }
-    }
+    //private void SwappingControls()
+    //{
+    //    if(isFlying == true)
+    //    {
+    //        Flying();
+    //        Debug.Log("turnning on flight controls");
+    //    }
+    //    else if(isDriving == true)
+    //    {
+    //        Driving();
+    //        Debug.Log("turning on driving controls");
+    //    }
+    //    else if(chargingPunch == true)
+    //    {
+    //        Punching();
+    //    }
+    //    else
+    //    {
+    //        Movement();
+    //    }
+    //}
 
-    void Movement()
-    {
-        inputActions.Drone.Disable();
-        inputActions.ForkLift.Disable();
-        inputActions.Player.Enable();
-        var inputDirections = inputActions.Player.Movement.ReadValue<Vector3>();
-        _player.InputMovement(inputDirections);
-    }
+    //void Movement()
+    //{
+    //    inputActions.Drone.Disable();
+    //    inputActions.ForkLift.Disable();
+    //    inputActions.Player.Enable();
+    //    var inputDirections = inputActions.Player.Movement.ReadValue<Vector3>();
+    //    _player.InputMovement(inputDirections);
+    //}
 
-    void Flying()
+    public void droidswap()
     {
         inputActions.Player.Disable();
         inputActions.Drone.Enable();
+        Debug.Log("turning on Flight Controls");
+        Flying();
+    }
 
-        var flyingDirections = inputActions.Drone.Movement.ReadValue<Vector3>();
-        _drone.MovementInputs(flyingDirections);
+    public void ForkLiftControls()
+    {
+        inputActions.Player.Disable();
+        inputActions.ForkLift.Enable();
+        Debug.Log("Turning on ForkLift Controls");
+        Driving();
+    }
 
-        var RotationDirections = inputActions.Drone.Rotate.ReadValue<float>();
-        _drone.RotateInput(RotationDirections);
+    public void PunchingControls()
+    {
+        Punching();
+    }
 
+    public void ReturnToPlayer()
+    {
+        inputActions.Player.Enable();
+        inputActions.Drone.Disable();
+        inputActions.ForkLift.Disable();
+        Debug.Log("returning back to player Controls");
+    }
+    void Flying()
+    {
+        inputActions.Drone.Escape.performed += Escape_performed1;
+        inputActions.Drone.Movement.performed += Movement_performed1;
+        inputActions.Drone.Rotate.performed += Rotate_performed;
+        inputActions.Drone.Flight.performed += Flight_performed;
+        inputActions.Drone.Movement.canceled += Movement_canceled1;
+        inputActions.Drone.Rotate.canceled += Rotate_canceled;
+    }
+
+    private void Rotate_canceled(InputAction.CallbackContext obj)
+    {
+        _drone.RotateInput(0);
+    }
+
+    private void Movement_canceled1(InputAction.CallbackContext obj)
+    {
+        _drone.MovementInputs(Vector3.zero);
+    }
+
+    private void Flight_performed(InputAction.CallbackContext obj)
+    {
         var HeightDirections = inputActions.Drone.Flight.ReadValue<Vector3>();
         _drone.HeightInput(HeightDirections);
+    }
 
-        inputActions.Drone.Escape.performed += Escape_performed1;
+    private void Rotate_performed(InputAction.CallbackContext obj)
+    {
+        var RotationDirections = inputActions.Drone.Rotate.ReadValue<float>();
+        _drone.RotateInput(RotationDirections);
+    }
+
+    private void Movement_performed1(InputAction.CallbackContext obj)
+    {
+        var flyingDirections = inputActions.Drone.Movement.ReadValue<Vector3>();
+        _drone.MovementInputs(flyingDirections);
     }
 
     private void Escape_performed1(InputAction.CallbackContext obj)
@@ -99,14 +162,22 @@ public class InputManager : MonoBehaviour
 
     private void Driving()
     {
-        inputActions.Player.Disable();
-        inputActions.ForkLift.Enable();
-
-        var MovementDirections = inputActions.ForkLift.Movement.ReadValue<Vector3>();
-        _forkLift.MovementControl(MovementDirections);
+        inputActions.ForkLift.Movement.performed += Movement_performed2;
+        inputActions.ForkLift.Movement.canceled += Movement_canceled2;
         inputActions.ForkLift.LiftArm.performed += LiftArm_performed;
         inputActions.ForkLift.LowerArm.performed += LowerArm_performed;
         inputActions.ForkLift.Escape.performed += Escape_performed2;
+    }
+
+    private void Movement_canceled2(InputAction.CallbackContext obj)
+    {
+        _forkLift.MovementControl(Vector3.zero);
+    }
+
+    private void Movement_performed2(InputAction.CallbackContext obj)
+    {
+        var MovementDirections = inputActions.ForkLift.Movement.ReadValue<Vector3>();
+        _forkLift.MovementControl(MovementDirections);
     }
 
     private void Escape_performed2(InputAction.CallbackContext obj)
@@ -151,12 +222,6 @@ public class InputManager : MonoBehaviour
     private void Punch_started(InputAction.CallbackContext obj)
     {
         canPunch = true;
-    }
-
-    void LaptopControls()
-    {
-        inputActions.Laptop.Swapping_Cameras.performed += Swapping_Cameras_performed;
-        inputActions.Laptop.Escape.performed += Escape_performed;
     }
 
     private void Escape_performed(InputAction.CallbackContext obj)

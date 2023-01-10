@@ -14,7 +14,7 @@ namespace Game.Scripts.LiveObjects
         private Slider _progressBar;
         [SerializeField]
         private int _hackTime = 5;
-        private bool _hacked = false;
+        public bool _hacked = false;
         [SerializeField]
         private CinemachineVirtualCamera[] _cameras;
         private int _activeCamera = 0;
